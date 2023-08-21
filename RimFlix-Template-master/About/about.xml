@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ModMetaData>
+
+    <!-- Name of your mod -->
+    <name>RimFlix - My Shows, Season 1</name>
+
+    <!-- Name of author -->
+    <author>MyName</author>
+    
+    <!-- Supported versions of RimWorld, do not change -->
+    <supportedVersions>
+        <li>1.0</li>
+        <li>1.1</li>
+        <li>1.2</li>
+    </supportedVersions>
+    
+    <!-- Unique name for your show mod -->
+    <packageId>YourName.RimFlix.YourShow</packageId>
+    
+    <!-- RimFlix dependency, do not change -->
+    <modDependencies>
+        <li>
+            <packageId>aznplucky.RimFlix</packageId>
+            <displayName>RimFlix</displayName>
+            <steamWorkshopUrl>steam://url/CommunityFilePage/1685381492</steamWorkshopUrl>
+        </li>
+    </modDependencies>
+    
+    <!-- Dependency order, do not change -->
+    <loadAfter>
+        <li>aznplucky.RimFlix</li>
+    </loadAfter>
+    
+    <!-- Description of your shows -->
+    <description>
+        Some shows created by me.
+        Remember to load this after RimFlix.
+    </description>
+    
+</ModMetaData>

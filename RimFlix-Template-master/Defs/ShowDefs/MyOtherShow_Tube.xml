@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+
+  <RimFlix.ShowDef>
+  
+    <!-- defName should be unique for each show -->
+    <defName>MyOtherShow_Tube</defName>
+
+    <!-- label is the name of the show users will see in game -->
+    <label>My Other Show - Tube Television</label>
+    
+    <!-- description is visible when users mouseover your show in settings -->
+    <description>A short description of my other show</description>
+    
+    <!-- You can include multiple televisionDefs here, but since the aspect ratio is different
+    for each television, you probably want different shows for each television type. -->
+    <televisionDefs>
+      <li>TubeTelevision</li>
+    </televisionDefs>
+    
+    <!-- Time between each image in your show -->
+    <secondsBetweenFrames>0.3</secondsBetweenFrames>
+
+    <!-- Placeholder for possible future feature. Not required. You can remove or leave it in. -->
+    <sound />
+    
+    <!-- This is where you link to all the images in your show -->
+    <frames>
+      <li>
+        <!-- This is a link to Shows/MyOtherShow/Tube_MyOtherShow_00.png -->
+        <texPath>Shows/MyOtherShow/Tube_MyOtherShow_00</texPath>
+        <!-- This is required for every frame. Just copy it over to each frame -->
+        <graphicClass>Graphic_Single</graphicClass>
+      </li>
+      <li>
+        <!-- This is a link to Shows/MyOtherShow/Tube_MyOtherShow_01.png -->
+        <texPath>Shows/MyOtherShow/Tube_MyOtherShow_01</texPath>
+        <graphicClass>Graphic_Single</graphicClass>
+      </li>
+      <!-- Add more frames as required -->
+    </frames>
+    
+  </RimFlix.ShowDef>
+
+</Defs>
