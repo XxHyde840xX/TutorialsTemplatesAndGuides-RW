@@ -1,0 +1,20 @@
+Arquebus — 01/30/2023 3:49 AM
+So as people have said, first and foremost is that you should get personal enjoyment out of modmaking and make things you want to. But I also realise that there is a part in all us that wants to get the mod out to as many people as possible. I've thought about this a little bit, so here's some of my take aways.
+- First and most importantly,  is curb your expectations. Compare your mods to similar mods that have been released in the last year or so. There is no point comparing yourself to VE, people with an existing following, or mods/mod makers with first move advantage. Similarly, scope will play a factor here too. New systems mods will pull more people than yet another gun mod or small qol mod. 
+- When making your mod, find your niche. If you want your mod, someone else probably does too. Find what alternatives they are using or what features they want. 
+- If there is an existing competitor mod to your idea, you will have to overcome firstmove advantage. The longer the mod has been out, the stronger their advantage. Following conventional business wisdom; your can't be just a little bit better to get people to use it, it has to be a lot better. 
+- Your niche can be a feature one, but mods with good theme and storytelling opportunity also do well in Rimworld.
+- First impressions matter. Your thumbnail and title will be the first thing people see. Make sure the thumbnail is a good one (rule of thirds and other graphic principles), recognisable and your name descriptive. 
+- Recognise the type of people who will be using your mod. Eg. Anime gets a bad wrap in the rimworld community due to the abundance of bad anime mods. By using anime in your thumbnail you limit your audience. This does not limit you from using it referentially for style or as part of a joke. 
+- Description matters. VE were not first movers back in the day, but the thing they did better than apparello or rimsenal was their mod description. Another good example is Roo's paint mod. 
+- Market your mod. What I've found is that marketing your mod on Reddit is that the conversion rate to subscribers is very low. Discord is better but I have less stats to make solid conclusions. 
+What it does do though is get your mod clickthrough.
+- The first 3 days of your mods release is the most important. Most of your mods subscribers will come from hitting top 3 most popular. We don't know stream's algorithm, but it appears that aside from subs and freshness; clickthrough, likes, favourites and comments also play a role here. Once you get to top 3 recent poplar, you can expect to double or triple your subs. 
+- Release your mod and do your social media releases at prime PC time on American east coast. This is when there is most internet traffic. Steam doesn't take locality into account. Thursday or Friday is usually best, or just before a public holiday. 
+- Try not to release at the same time as VE, a VE adjacent modder, Owlchemist or any other known modmaker. They'll be guaranteed one of the popular spots. They tend to do the above, so either preempt them by a few days or delay a week. 
+- Build a brand or personality.
+- New mod releases tends to give your other mods a sub boost. This can be encouraged by adding all your mods to a collection
+- Youtubers using your mods will also give them a boost
+Addendum:
+- Key words matter. When picking a name and short description. Consider search terms that people may look for. (see SEO practices) 
+That's all i got, thanks for coming to my Ted talk.
