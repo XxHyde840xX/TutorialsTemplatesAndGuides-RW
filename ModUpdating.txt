@@ -1,0 +1,404 @@
+==========================================
+=============== CHANGELOG ================
+==========================================
+
+1.0 -> 1.1
+-------------------
+
+- Backstory categories reorganized to be more meaningful.
+-- "Civil" backstory category renamed to "Offworld"
+-- "Raider" renamed to "Pirate".
+-- "Outlander" category added.
+-- "Slave", "Traveler", and "Trader" categories removed.
+- Backstory references to 'hiveworld' changed to 'urbworld'.
+
+- CellRect.GetIterator() is now deprecated, use CellRect.GetEnumerable() instead (foreach)
+- Refactored Toils_LayDown.GroundRestEffectiveness -> StatDefOf.BedRestEffectiveness.valueIfMissing
+- Arresting chance is a stat now, StatDefOf.ArrestSuccessChance
+- All stats were reordered in the UI
+
+- Filth acceptance rules were changed
+-- TerrainDef.acceptTerrainSourceFilth is gone, it has been replaced with TerrainDef.filthAcceptanceMask
+--- The acceptance mask lets you define more specific rules for which filth your terrain will be accepting
+--- We divide filth into these categories: Terrain, Natural and Unnatural (FilthSourceFlags enum)
+--- Every TerrainDef can decide which categories it will accept by combining the enum values using the | operator. In XML the flags can be assigned like list items.
+-- FilthProperties got the placementMask field, this is the counterpart to TerrainDef.filthAcceptanceMask
+-- It is possible to specify additional placementMask flags at runtime, we do this for pawn filth which additionally sets the Natural (for wild animals) or Unnatural (for all other pawns) flag.
+
+- AltitudeLayer.Conduits was added for conduits
+-- All conduits should use this layer instead FloorEmplacement
+
+- Debug output attributes HasDebugOutputAttribute, CategoryAttribute and ModeRestrictionPlay have been deprecated
+-- The functionality has been merged into DebugOutputAttribute, use its fields instead of the other attributes.
+
+- Collapsed SculptingSpeed, SmeltingSpeed, SmithingSpeed and TailorSpeed to UnskilledLaborSpeed
+- Renamed UnskilledLaborSpeed -> GeneralLaborSpeed
+
+- Parties and marriages were generalized to gatherings
+-- PartyUtility -> GatheringsUtility, JoyGiver.TryGiveJobInPartyArea->JoyGiver.TryGiveJobInGatheringArea
+-- JobGiver_EatInPartyArea->JobGiver_EatInGatheringArea, ThinkNode_ConditionalInPartyArea->ThinkNode_ConditionalInGatheringArea, JobGiver_GetJoyInPartyArea->JobGiver_GetJoyInGatheringArea, JobGiver_WanderInPartyArea->JobGiver_WanderInGatheringArea
+
+- Backstory categories(List<string>) have been replaced with filters(BackstoryCategoryFilter), the old fields are still available and will be loaded into the new format, but they may be removed in the future.
+-- FactionDef.backstoryCategories -> FactionDef.backstoryFilters
+-- PawnKindDef.backstoryCategories -> PawnKindDef.backstoryFilters
+
+- Rotated turret tops to point to the right, making them consistent and interchangeable with weapon art
+
+- Renamed PoisonSpreader -> Defoliator
+- Renamed PoisonSpreaderShipPart -> DefoliatorShipPart
+
+- Jobs are now instantiated by using JobMaker.MakeJob() instead of new Job()
+
+- Added ModMetaData.packageId - a unique identifier by which other mods and the game will refer to a mod. Refer to "MOD METADATA" section for more info.
+
+- Added Mod Requirements - a unified way for mod creators to specify how their content interacts with other mods. Following new fields are now a part of ModMetaData:
+-- modDependencies
+-- incompatibleWith
+-- loadBefore
+-- loadAfter
+- Refer to "MOD METADATA" section for more info.
+
+- Recommended mod Preview image aspect ratio changed to 2.468:1, it takes less space on info screen. All preview images will be automatically fit into this space.
+- Added LoadFolders.xml that allows to have different sets of folders to load content from per each game version. More in 'LOAD FOLDERS XML' section.
+
+==========================================
+=========== MOD FILE STRUCTURE ===========
+==========================================
+
+Mods are located in the 'Mods/' folder relative to your RimWorld install folder. Such as:
+
+-RimWorld/
+  -Mods/
+    -YourMod/
+
+Mods can have very different inner structure depending on what they do and what version(s) of the game they support.
+But every mod must define an 'About' sub-folder, that contains an 'About.xml' file:
+
+-YourMod/
+  -About/
+    -About.xml
+
+'About.xml' is the place to define all meta-data(name, packageId, description, dependencies etc.) for your mod. This file is vital for the game to be able to load your mod.
+You can learn more about writing 'About.xml' in 'MOD METADATA' section.
+
+About folder also allows you to place a preview image for your mod:
+
+-YourMod/
+  -About/
+    -Preview.png
+
+This image will show up on your mod's info page in game. It can be any size, but recommended aspect ratio is 2.468:1.
+
+------------------------
+-------Mod content------
+------------------------
+
+Mod content structure is defined by some combination of these sub-folders:
+
+Defs/       - If your mod adds new XML definitions (ThingDef, PawnKindDef, JobDef etc.), this is the place for them.
+              There's no strict rules on naming or folder layout for Defs, but generally it's best to keep it consistent with the base game:
+                -Defs/
+                  -RecipeDefs/
+                    -Recipes_Production.xml
+                  -Bodies/
+                    -BodyParts_Humanoid.xml
+                  -SoundDefs/
+                    -YourModNewSoundDefs.xml
+
+Textures/   - Your mod's graphic content.
+
+Sounds/     - Your mod's audio content.
+
+Patches/    - Modifications to other mod's XML or Defs via PatchOperations API.
+
+Languages/  - Custom translation keys. Some cases when you'd to define them:
+
+                A) You're making a C# mod and want to add translatable keyed strings to use in your code. Example structure:
+                   -Languages/
+                     -English/
+                       -Keyed/
+                         -Keys.xml(can use any name)
+
+                B) Translating Defs, for example:
+                   -Languages/
+                     -Non-English/
+                       -DefInjected/
+                         -SkillDef/
+                           -Skills.xml
+
+                C) Randomly generating names from your own dictionary.
+                   -Languages/
+                     -English/
+                       -Strings/
+                         -NameBanks/
+                           -X.txt
+                   Where X.txt can be a .txt file with any name, containing a word on each line.
+
+              Make sure you use UTF-8 encoding when saving language files, or special characters won't show up properly in-game.
+
+Source/ and Assemblies/ - If you're making a C# mod, you'll want to have your C# project(s) in the 'Source' folder and compile the resulting class libraries(*.dll) into the 'Assemblies' folder.
+                          Your folder structure will look something like this:
+
+                          -Assemblies/
+                            -ProjectNameA.dll
+                            -ProjectNameB.dll
+                          -Source/
+                            -ProjectNameA/
+                              -SolutionNameA.sln
+                              -...
+                            -ProjectNameB/
+                              -SolutionNameB.sln
+                              -...
+
+
+It is important to know that when the game is scanning for your mod's content, it goes through a list of load folders. You don't have to put all your mod's content in the root directory.
+Each of load folders can hold its own content structure, like this:
+
+-YourMod/
+  -Common/
+    -Patches/
+      -ReplaceTreeTextures.xml
+    -Textures/
+      -...
+  -1.5/
+    -Patches/
+      -ReplaceTreeTextures_1_5_Specific.xml
+    -Textures/
+      -...
+
+This allows you to have different sets of content per each game version but also share content between versions if needed.
+List of load folders can be defined per each game version in LoadFolders.xml (you can learn more about writing 'LoadFolders.xml' in 'MOD LOAD FOLDERS' section).
+
+
+Complete mod folder structure example:
+
+-YourMod/
+  -About/
+    -About.xml
+    -Preview.png
+  -Assemblies/
+    -ProjectName.dll
+  -Source/
+    -ProjectName.sln
+    -...
+  -Common/
+    -Patches/
+      -ReplaceTreeTextures.xml
+    -Defs/
+      -
+    -Textures/
+      -...
+    -Sounds/
+      -...
+  -1.1/
+    -Patches/
+      -ReplaceTreeTextures_1_1_Specific.xml
+      -...
+    -Textures/
+      -...
+  -1.5/
+    -Patches/
+      -ReplaceTreeTextures_1_5_Specific.xml
+      -...
+    -Textures/
+      -...
+
+===========================================================
+============ SUPPORTING MULTIPLE GAME VERSIONS ============
+===========================================================
+
+Before loading content for your mod, the game will first check if there is LoadFolders.xml defined, that has a list of folders for current version.
+If not defined, the game will try to fallback to previous version or whatever available.
+
+To learn more on how to setup multi-version support, refer to this page: https://docs.google.com/document/d/1_DmcLpIvHIQ5AxVLYrn9_iwkOqArlgcWcyE_6RSDG6M
+
+==========================================
+============== MOD METADATA ==============
+==========================================
+
+Each mod must include an "About.xml" file located in mod's "About" folder(So the full path is "About/About.xml").
+About.xml defines a single ModMetaData structure, containing following fields:
+
+-------------------------------------------------------------------------------------------------------------
+- <name> (string, required)
+  A mod name of your choosing. It's best to keep it descriptive and short.
+-------------------------------------------------------------------------------------------------------------
+- <author> (string, optional) 
+  Your name/nickname. This may help people find your other content or recognize you. If this field is not specified, game will use "Anonymous".
+-------------------------------------------------------------------------------------------------------------
+- <packageId> (string, required)
+  A unique identifier by which other mods and the game will refer to a mod.
+  <packageId> must follow a specific format:
+     * Alphanumeric characters and dot only.
+     * No spaces.
+     * At least one dot.
+     * No repeated dots in a row, or starting or ending with a dot.
+     * 60 characters or less.
+     * Cannot contain word "Ludeon".
+   
+  Examples: 
+  <packageId>AuthorName.ModName</packageId>
+  <packageId>AuthorName.ModSeriesName.ModName</packageId>.
+
+  For backwards compatibility, if no packageId is defined, it will be auto-generated from "Author" and "Name" fields.
+  Game won't load two mods with the same packageId. The only exception is if one of them is a workshop mod and the other one is local, then you can have both of them installed and one of them active.
+-------------------------------------------------------------------------------------------------------------
+- <description> (string, optional)
+  Anything you think player needs to know about your mod.
+  Avoid using the <size> tag, this is not currently supported and may render a part of your description invisible.
+-------------------------------------------------------------------------------------------------------------
+- <url> (string, optional)
+  Example: https://rimworldgame.com/
+-------------------------------------------------------------------------------------------------------------
+- <supportedVersions> (list, required)
+  A list of game versions mod is compatible with. Entries must be in "X.Y" format, where X is major version and Y is minor version.
+
+  Examples:
+    <supportedVersions>
+        <li>1.0</li>
+        <li>1.1</li>
+    </supportedVersions>
+
+    <supportedVersions>
+        <li>1.0</li>
+    </supportedVersions>
+-------------------------------------------------------------------------------------------------------------
+- <modDependencies> (list, optional)
+  A list of mods that have to be installed and active in order for your mod to function.
+  This allows player to easily view and resolve dependencies on the mod info page.
+  Consists of:
+     * packageId(required)
+     * displayName(required)    - A player-facing name of the required mod.
+     * downloadUrl              - A page where player can get this mod. 
+     * steamWorkshopUrl         - This is preferred over downloadUrl in the Steam version of the game.
+
+  Either downloadUrl or steamWorkshopUrl has to be specified, if one is not specified the other one is used automatically.
+
+  Example:
+    <modDependencies>
+      <li>
+        <packageId>ModderName.ModSeries.ModName</packageId>
+        <displayName>ModName</displayName>
+        <steamWorkshopUrl>steam://url/CommunityFilePage/123456789</steamWorkshopUrl>
+      </li>
+      <li>
+        <packageId>ModderName.ModSeries.OtherModName</packageId>
+        <displayName>Other Mod Name</displayName>
+        <downloadUrl>https://moddername.com/modname</downloadUrl>
+      </li>
+    </modDependencies>
+-------------------------------------------------------------------------------------------------------------
+- <incompatibleWith> (list, optional)
+  A list of mod packageIds that cannot be active at the same time as your mod. They still can be installed, but not active.
+
+  Example:
+    <incompatibleWith>
+      <li>Ludeon.Rimworld.Royalty</li>
+      <li>ModderName.ModSeries.ModName</li>
+    </incompatibleWith>
+-------------------------------------------------------------------------------------------------------------
+- <loadBefore> (list, optional)
+  A list of mod packageIds that this mod must precede in load order to work correctly. Player can use Auto-sort button to resolve these automatically.
+
+  Example:
+    <loadBefore>
+      <li>ModderName.ModSeries.ModName</li>
+    </loadBefore>
+-------------------------------------------------------------------------------------------------------------
+- <loadAfter> (list, optional)
+  A list of mod packageIds that this mod must be after in load order to work correctly. Player can use Auto-sort button to resolve these automatically.
+
+  Example:
+    <loadAfter>
+      <li>ModderName.ModSeries.ModName</li>
+    </loadAfter>
+-------------------------------------------------------------------------------------------------------------
+
+Full example of About.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Cargo Pod Mimics</name>
+  <author>Randy</author>
+  <packageId>Randy.Essential.CargoPodMimics</packageId>
+  <description>A must-have mod to keep you on the edge of your seat.</description>
+  <url>https://www.randyrandom.org/</url>
+  <supportedVersions>
+    <li>1.0</li>
+    <li>1.1</li>
+  </supportedVersions>
+  <modDependencies>
+    <li>
+      <packageId>Randy.Essential.Tornados</packageId>
+      <displayName>Return Tornados</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/123456789</steamWorkshopUrl>
+    </li>
+    <li>
+      <packageId>Randy.Essential.MoreBoomrats</packageId>
+      <displayName>More Manhunter Boomrats</displayName>
+      <downloadUrl>https://www.randyrandom.org/boomrats</downloadUrl>
+    </li>
+  </modDependencies>
+  <loadBefore>
+    <li>Randy.Essential.Zzztt</li>
+  </loadBefore>
+  <loadAfter>
+    <li>Randy.Essential.MoreBoomrats</li>
+    <li>Randy.Essential.Tornados</li>
+  </loadAfter>
+  <incompatibleWith>
+    <li>Phoebe.PeacefulExperience</li>
+  </incompatibleWith>
+</ModMetaData>
+
+-------------------------------------------------------------------------------------------------------------
+
+You can add custom fields to About.xml that aren't present in the game's code but may be parsed by other means.
+To avoid getting errors about these fields when game is loaded, you can use IgnoreIfNoMatchingField XML attribute like so:
+
+<customData IgnoreIfNoMatchingField="True"></customData>
+
+-------------------------------------------------------------------------------------------------------------
+
+----------------------------------------
+------ Versioned About.xml fields ------
+----------------------------------------
+
+A number of About.xml fields have a versioned counterpart to allow you to override data on a game version-specific basis. This is a full list of them:
+
+  description       -> descriptionsByVersion
+  modDependencies   -> modDependenciesByVersion
+  incompatibleWith  -> incompatibleWithByVersion
+  loadBefore        -> loadBeforeByVersion
+  loadAfter         -> loadAfterByVersion
+
+The syntax is similar to LoadFolders:
+
+  <descriptionsByVersion>
+    <v1.1>Some description that will appear only for 1.1.</v1.1>
+    <v1.2>Some description that will appear only for 1.2.</v1.2>
+  </descriptionsByVersion>
+
+  <modDependenciesByVersion>
+    <v1.1>
+      <li>
+        <packageId>modder.firstmod</packageId>
+        <displayName>First Mod</displayName>
+        <downloadUrl>google.com</downloadUrl>
+      </li>
+    </v1.1>
+    <v1.2>
+      <li>
+        <packageId>modder.firstmod</packageId>
+        <displayName>First Mod</displayName>
+        <downloadUrl>google.com</downloadUrl>
+      </li>
+      <li>
+        <packageId>modder.secondmod</packageId>
+        <displayName>Second Mod</displayName>
+        <downloadUrl>google.com</downloadUrl>
+      </li>
+    </v1.2>
+  </modDependenciesByVersion>
+
+If there's a versioned field with data defined for the current version, it will override the base field's value. Otherwise, the base field will stay the same.
