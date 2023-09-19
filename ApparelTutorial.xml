@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+
+  <!--__________ Modding Tutorial Basic Apparel __________-->
+
+    <!-- Non Stuffable Apparel -->
+
+  <ThingDef ParentName="ApparelMakeableBase">
+    <defName>What_You_Want_The_Apparel_To_Be_Read_As_In_XML</defName>
+    <label>What you want the apparel to be called in game</label>
+    <description>Description for apparel.</description>
+    <graphicData>
+        <!-- File Path in which the texture is located, example. If my Texture is in a folder called apparel I would path it as so. Notice you do not need to put the folder named 'Textures' -->
+      <texPath>Things/Apparel/Modding_Tutorial_Apparel/Non_Stuffable_Apparel</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <techLevel>Tech_Level_At_Which_Your_Apparel_Is_Placed_In</techLevel>
+    <costList>
+        <!-- Anything you want to apparel to be made out of can be listed within the costlist, just find the def name and place it here, as I have done for cloth. Also listed here is the cost or how much of said item you will use -->
+        <Cloth>75</Cloth>
+    </costList>
+    <!-- Is this apparel tradeable? And to what degree -->
+    <tradeability>Sellable</tradeability>
+    <statBases>
+      <!-- How long it takes to make the apparl -->
+      <WorkToMake>1300</WorkToMake>
+      <!-- How strong is your apparel -->
+      <MaxHitPoints>100</MaxHitPoints>
+      <!-- How heavy is your apparel -->
+      <Mass>5.5</Mass>
+      <!-- Armor streangth against Sharp, Blunt, and Heat weapons -->
+      <ArmorRating_Sharp>0.40</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.30</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.20</ArmorRating_Heat>
+      <!-- Insulation for hot and cold climates -->
+      <Insulation_Cold>3</Insulation_Cold>
+      <Insulation_Heat>5</Insulation_Heat>
+      <!-- How long it takes the pawn to equip your apparel -->
+      <EquipDelay>1</EquipDelay>
+    </statBases>
+    <!-- Any Stats you want added to the apparel can be listed below -->
+    <equippedStatOffsets>
+        <MeleeDodgeChance>0.5</MeleeDodgeChance>
+    </equippedStatOffsets>
+    <!-- What thing category your apparel is in -->
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <!-- Body parts group your apparel covers -->
+      <bodyPartGroups>
+        <li>Legs</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Things/Apparel/Modding_Tutorial_Apparel/Non_Stuffable_Apparel</wornGraphicPath>
+      <!-- Layers your apparel will be on, OnSkin (Shirt), Middle (Flak vest), Shell (Duster) -->
+      <layers>
+        <li>OnSkin</li>
+      </layers>
+      <!-- Tags for your apparel to spawn -->
+      <tags>
+        <li>Modding_Tutorial_tags</li>
+      </tags>
+      <!-- Can this apparel be deired for an Ideoligion? If no then false,if yes then true -->
+      <canBeDesiredForIdeo>false</canBeDesiredForIdeo>
+    </apparel>
+    <recipeMaker>
+    <!-- Research required to get before apparel can be made -->
+    <researchPrerequisites>
+      <li>Research_You_Want_Your_Apparel_To_Use</li>
+    </researchPrerequisites>
+        <!-- What bench you would like your apparel to be made at -->
+        <recipeUsers>
+            <li>Where_You_Want_Your_Apparel_Made</li>
+        </recipeUsers>
+    </recipeMaker>
+  </ThingDef>
+
+</Defs>
